@@ -40,13 +40,21 @@ namespace CourseWork
                     DataTable dt = ds.Tables[0];
                     // добавим новую строку
                     DataRow newRow = dt.NewRow();
-                    newRow["Post"] = comboBoxTeacher.SelectedValue;
-                    newRow["Importance"] = textBox2.Text;
-                    newRow["Term"] = textBox3.Text;
-                    newRow["Place"] = textBox4.Text;
-                    newRow["Information"] = textBox5.Text;
-                    newRow["Mark"] = false;
-                    newRow["Type"] = comboBoxType.SelectedValue;
+                    try
+                    {
+                        newRow["Post"] = comboBoxTeacher.SelectedValue;
+                        newRow["Importance"] = textBox2.Text;
+                        newRow["Term"] = textBox3.Text;
+                        newRow["Place"] = textBox4.Text;
+                        newRow["Information"] = textBox5.Text;
+                        newRow["Mark"] = false;
+                        newRow["Type"] = comboBoxType.SelectedValue;
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Одно из полей не удовлетворяет требуемому типу данных");
+                        return;
+                    }
                     dt.Rows.Add(newRow);
                     // создаем объект SqlCommandBuilder
                     SqlCommandBuilder commandBuilder = new SqlCommandBuilder(adapter);
@@ -71,7 +79,15 @@ namespace CourseWork
                     command.Parameters.AddWithValue("@type", comboBoxType.SelectedValue);
                     command.Parameters.AddWithValue("@id", IDEvent);
                     connection.Open();
-                    command.ExecuteNonQuery();
+                     try
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Одно из полей не удовлетворяет требуемому типу данных");
+                        return;
+                    }
                     connection.Close();
                 }
             }
