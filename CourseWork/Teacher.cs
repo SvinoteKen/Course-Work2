@@ -45,21 +45,29 @@ namespace CourseWork
                     DataTable dt = ds.Tables[0];
                     // добавим новую строку
                     DataRow newRow = dt.NewRow();
-                    newRow["FullName"] = textBoxName.Text;
-                    newRow["Post"] = textBoxPost.Text;
-                    newRow["Rank"] = textBoxRank.Text;
-                    newRow["BirthDate"] = textBoxBirthDate.Text;
-                    newRow["Years"] = textBoxYears.Text;
-                    newRow["Experience"] = textBoxExperience.Text;
-                    newRow["YearOfCertification"] = textBoxYearOfCertification.Text;
-                    newRow["YearOfCourses"] = textBoxYearOfCourses.Text;
-                    newRow["Phone"] = textBoxPhone.Text;
-                    newRow["Email"] = textBoxEmail.Text;
-                    newRow["Load"] = textBoxLoad.Text;
-                    newRow["VacationFrom"] = textBoxVacationFrom.Text;
-                    newRow["VacationTo"] = textBoxVacationTo.Text;
-                    newRow["SickFrom"] = textBoxSickFrom.Text;
-                    newRow["SickTo"] = textBoxSickTo.Text;
+                    try
+                    {
+                        newRow["FullName"] = textBoxName.Text;
+                        newRow["Post"] = textBoxPost.Text;
+                        newRow["Rank"] = textBoxRank.Text;
+                        newRow["BirthDate"] = textBoxBirthDate.Text;
+                        newRow["Years"] = textBoxYears.Text;
+                        newRow["Experience"] = textBoxExperience.Text;
+                        newRow["YearOfCertification"] = textBoxYearOfCertification.Text;
+                        newRow["YearOfCourses"] = textBoxYearOfCourses.Text;
+                        newRow["Phone"] = textBoxPhone.Text;
+                        newRow["Email"] = textBoxEmail.Text;
+                        newRow["Load"] = textBoxLoad.Text;
+                        newRow["VacationFrom"] = textBoxVacationFrom.Text;
+                        newRow["VacationTo"] = textBoxVacationTo.Text;
+                        newRow["SickFrom"] = textBoxSickFrom.Text;
+                        newRow["SickTo"] = textBoxSickTo.Text;
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Одно из полей не удовлетворяет требуемому типу данных");
+                        return;
+                    }
                     dt.Rows.Add(newRow);
                     // создаем объект SqlCommandBuilder
                     SqlCommandBuilder commandBuilder = new SqlCommandBuilder(adapter);
@@ -93,7 +101,15 @@ namespace CourseWork
                     command.Parameters.AddWithValue("@st", textBoxSickTo.Text);
                     command.Parameters.AddWithValue("@id", IDTeacher);
                     connection.Open();
-                    command.ExecuteNonQuery();
+                     try
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Одно из полей не удовлетворяет требуемому типу данных");
+                        return;
+                    }
                     connection.Close();
                 }
             }
