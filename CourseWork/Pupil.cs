@@ -38,17 +38,25 @@ namespace CourseWork
                     DataTable dt = ds.Tables[0];
                     // добавим новую строку
                     DataRow newRow = dt.NewRow();
-                    newRow["FullName"] = textBoxFullName.Text;
-                    newRow["BirthDate"] = textBoxBirthDate.Text;
-                    newRow["Years"] = textBoxYears.Text;
-                    newRow["Class"] = comboBoxClass.SelectedValue ;
-                    newRow["District"] = textBoxDistrict.Text;
-                    newRow["Social"] = textBoxSocial.Text;
-                    newRow["Phone"] = textBoxPhone.Text;
-                    newRow["DateOfReceipt"] = textBoxDateOfReceipt.Text;
-                    newRow["DateOfDisposal"] = textBoxDateOfDisposal.Text;
-                    newRow["Parent"] = textBoxParent.Text;
-                    newRow["PhoneParent"] = textBoxPhoneParent.Text;
+                    try
+                    {
+                        newRow["FullName"] = textBoxFullName.Text;
+                        newRow["BirthDate"] = textBoxBirthDate.Text;
+                        newRow["Years"] = textBoxYears.Text;
+                        newRow["Class"] = comboBoxClass.SelectedValue;
+                        newRow["District"] = textBoxDistrict.Text;
+                        newRow["Social"] = textBoxSocial.Text;
+                        newRow["Phone"] = textBoxPhone.Text;
+                        newRow["DateOfReceipt"] = textBoxDateOfReceipt.Text;
+                        newRow["DateOfDisposal"] = textBoxDateOfDisposal.Text;
+                        newRow["Parent"] = textBoxParent.Text;
+                        newRow["PhoneParent"] = textBoxPhoneParent.Text;
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Одно из полей не удовлетворяет требуемому типу данных");
+                        return;
+                    }
                     dt.Rows.Add(newRow);
                     // создаем объект SqlCommandBuilder
                     SqlCommandBuilder commandBuilder = new SqlCommandBuilder(adapter);
@@ -85,7 +93,15 @@ namespace CourseWork
                     command.Parameters.AddWithValue("@pp", textBoxPhoneParent.Text);
                     command.Parameters.AddWithValue("@id", IDPupil);
                     connection.Open();
-                    command.ExecuteNonQuery();
+                    try
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Одно из полей не удовлетворяет требуемому типу данных");
+                        return;
+                    }
                     connection.Close();
                 }
             }
