@@ -91,11 +91,19 @@ namespace CourseWork
                     DataTable dt = ds.Tables[0];
                     // добавим новую строку
                     DataRow newRow = dt.NewRow();
-                    newRow["Pupil"] = comboBoxPupil.SelectedValue;
-                    newRow["Grade"] = textBoxGrade.Text;
-                    newRow["Lesson"] = comboBoxSubject.SelectedValue;
-                    newRow["Period"] = comboBoxPeriod.SelectedValue;
-                    newRow["Class"] = comboBoxClass.SelectedValue;
+                    try
+                    {
+                        newRow["Pupil"] = comboBoxPupil.SelectedValue;
+                        newRow["Grade"] = textBoxGrade.Text;
+                        newRow["Lesson"] = comboBoxSubject.SelectedValue;
+                        newRow["Period"] = comboBoxPeriod.SelectedValue;
+                        newRow["Class"] = comboBoxClass.SelectedValue;
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Одно из полей не удовлетворяет требуемому типу данных");
+                        return;
+                    }
                     dt.Rows.Add(newRow);
                     // создаем объект SqlCommandBuilder
                     SqlCommandBuilder commandBuilder = new SqlCommandBuilder(adapter);
@@ -118,7 +126,15 @@ namespace CourseWork
                     command.Parameters.AddWithValue("@cl", comboBoxClass.SelectedValue);
                     command.Parameters.AddWithValue("@ID", IDPerf);
                     connection.Open();
-                    command.ExecuteNonQuery();
+                    try
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Одно из полей не удовлетворяет требуемому типу данных");
+                        return;
+                    }
                     connection.Close();
                 }
             }
